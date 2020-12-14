@@ -72,7 +72,6 @@ function App() {
               }}
             />
           ))}
-
           {selected ? (
             <InfoWindow
               position={{ lat: selected.lat, lng: selected.lng }}
@@ -80,10 +79,10 @@ function App() {
                 setSelected(null);
               }}
             >
-              <div>
+              <div className='infoWindow'>
                 <h2>
                   <span role="img" aria-label="ROBOT">
-                    🐻
+                    🤖
                   </span>{" "}
                   Alert
                 </h2>
