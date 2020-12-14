@@ -143,3 +143,73 @@
 // }
 
 // export default App;
+
+
+
+///////////////////////////////////////////////////////////////////////////////////
+
+// import React, { Component } from 'react';
+// import './App.css';
+// import {GoogleMap, withScriptjs, withGoogleMap, Marker, InfoWindow} from "react-google-maps";
+// import mapStyles from "./mapStyles";
+
+//  function Map () {
+
+
+//   const [selected, setSelected] = React.useState([])
+
+//   return (
+//     <>
+//       <GoogleMap 
+//         defaultZoom={10} 
+//         defaultCenter={{ lat: 44.977753, lng: -93.265015 }}
+//         defaultOptions={{ styles: mapStyles }}
+//         onClick={(event) => {console.log(`Hello there ${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`)}}
+//         />
+//       <Marker
+//         position={{ lat: 44.977753, lng: -93.265015 }}
+//         icon={{
+//           url: `/icons8-robot-2-64.png`,
+//           scaledSize: new window.google.maps.Size(25, 25)
+//         }}
+//       />
+//       <Marker
+//         position={{ lat: 45, lng: -93 }}
+//         icon={{
+//           url: `/icons8-r2-d2.svg`,
+//           scaledSize: new window.google.maps.Size(25, 25)
+//         }}
+//         // onClick={alert(`hello`)}
+//       />
+//       {/* <InfoWindow>
+//         <div>
+//           <h2>Robot Identified!</h2>
+//         </div>
+//       </InfoWindow> */}
+//     </>
+//   )
+// }
+
+// const WrappedMap = withScriptjs(withGoogleMap(Map));
+
+
+// class App extends Component {
+//   render() {
+//     return (
+//       <div className='inhumanConditions'>
+//         <h1>Remain Calm. If you are not a robot, you have nothing to fear.</h1>
+//         <div className="map">
+//         <WrappedMap 
+//             googleMapURL = {`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDOqfm-oP_UKSq5ayaR72V_R-p8W1JJvrY`}
+//             loadingElement={<div style={{ height: `100%` }} />}
+//             containerElement={<div style={{ height: `400px` }} />}
+//             mapElement={<div style={{ height: `100%` }} />}
+//             onClick={(event) => {console.log(`Hello there ${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`)}}
+//           />
+//         </div>
+//       </div>
+//     )
+//   }
+// }
+
+// export default App;
