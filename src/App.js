@@ -1,36 +1,48 @@
 import React, { Component } from 'react';
-import './App.css';
 import {GoogleMap,
 useLoadScript,
 Marker,
 InfoWindow} from "@react-google-maps/api";
-import mapStyles from "./mapStyles";
 import { formatRelative } from "date-fns";
 
+// Styles Imports
+import './App.css';
+import mapStyles from "./mapStyles";
+
 const libraries = ["places"];
+
+// Map Container
 const mapContainerStyle = {
   width: "100vw",
   height: "50vh"
 }
+
+// Location of Minneapolis MN,
 const center = {
   lat: 44.977753,
   lng: -93.265015,
 }
 
+// Linked to mapStyles.js, resets default map style
 const options = {
   styles: mapStyles
 }
 
+
 function App() {
 
+  // Upon DOM load will query below
   const {isLoaded, loadError} = useLoadScript({
-    googleMapsApiKey: "AIzaSyDOqfm-oP_UKSq5ayaR72V_R-p8W1JJvrY",
+    googleMapsApiKey: "AIzaSyDOqfm-oP_UKSq5ayaR72V_R-p8W1JJvrY", 
     libraries,
   });
 
   const [markers, setMarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
 
+  // Upon Click on map will add an object to the marker array
+  // This records the Lat and Lng of the position clicked as well as the time it was clicked
+  // This will appear as a robot on the map
   const onMapClick = React.useCallback((e) => {
     setMarkers((current) => [
       ...current,
@@ -42,13 +54,24 @@ function App() {
     ]);
   }, []);
 
+  const mapRef = React.useRef();
+  const onMapLoad = React.useCallback((map) => {
+    mapRef.current = map;
+  }, []);
+
+  const panTo = React.useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(15);
+  }, []);
+
   if (loadError) return "Error loading maps";
-  if (!isLoaded) return "Loading Maps";
+  if (!isLoaded) return "Loading Maps...";
 
   return (
     <div className="App">
       <div className="mapAPI">
       <h1>Remain Calm, </h1>
+      <Locate panTo={panTo} />
         <div className="map">
           <GoogleMap 
             mapContainerStyle={mapContainerStyle} 
@@ -56,6 +79,7 @@ function App() {
             center={center} 
             options={options}
             onClick={onMapClick}
+            onLoad={onMapLoad}
           >
           {markers.map((marker) => (
             <Marker
@@ -94,6 +118,30 @@ function App() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Button on DOM, upon click will take the user to their current location based on their GeoLocation
+// Uses browser to get geolocation via Latitude and Longitude
+function Locate({ panTo }) {
+  return (
+    <button
+      className="locate"
+      onClick={() => {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            console.log(position)
+            panTo({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          },
+          () => null
+        );
+      }}
+    >
+      <img src='https://cdn.osxdaily.com/wp-content/uploads/2014/05/compass-icon-ios-300x300.png' alt='location - compass' />
+    </button>
   );
 }
 
